@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather App</title>
+  <style>
+
+    body {
+      font-family: Arial;
+      background: skyblue;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    input {
+      padding: 10px;
+      width: 200px;
+    }
+
+    button {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 20px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <h1>🌦 Weather App</h1>
+
+  <input
+    type="text"
+    id="city"
+    placeholder="Enter city"
+  >
+
+  <button onclick="getWeather()">
+    Search
+  </button>
+
+  <div id="result"></div>
+
+</div>
+
+<script>
+
+async function getWeather() {
+
+  const city =
+    document.getElementById("city").value;
+
+  const apiKey =
+    "c7a04566d9305ea496d3d075bd5e2e21";
+
+  const url =
+`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+  const response = await fetch(url);
+
+  const data = await response.json();
+
+  document.getElementById("result").innerHTML = `
+    <h2>${data.name}</h2>
+    <p>🌡 ${data.main.temp} °C</p>
+    <p>☁ ${data.weather[0].description}</p>
+  `;
+}
+
+</script>
+
+</body>
+</html>
