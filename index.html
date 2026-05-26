@@ -65,20 +65,40 @@ async function getWeather() {
     document.getElementById("city").value;
 
   const apiKey =
-    "c7a04566d9305ea496d3d075bd5e2e21";
+    "YOUR_REAL_API_KEY";
 
   const url =
 `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-  const response = await fetch(url);
+  try {
 
-  const data = await response.json();
+    const response = await fetch(url);
 
-  document.getElementById("result").innerHTML = `
-    <h2>${data.name}</h2>
-    <p>🌡 ${data.main.temp} °C</p>
-    <p>☁ ${data.weather[0].description}</p>
-  `;
+    const data = await response.json();
+
+    if (data.cod != 200) {
+
+      document.getElementById("result").innerHTML =
+        "❌ City not found or API issue";
+
+      return;
+    }
+
+    document.getElementById("result").innerHTML = `
+      <h2>${data.name}</h2>
+      <p>🌡 Temperature: ${data.main.temp} °C</p>
+      <p>☁ Weather: ${data.weather[0].description}</p>
+    `;
+
+  }
+
+  catch(error) {
+
+    document.getElementById("result").innerHTML =
+      "⚠ Something went wrong";
+
+  }
+
 }
 
 </script>
